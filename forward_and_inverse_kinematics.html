@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<title> forward_and _inverse_kinematics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<head>
+<style>
+body{
+  background-image: url("back.png");
+  background-size: cover;
+  background-position: center;
+  
+  
+  
+}
+.header {
+  background: #e185f7;
+  text-align: center;
+  padding: 20px;
+  border-style: solid;
+  border-width: 5px;
+  border-color:#ed98ff;
+  color: white;
+}
+.box_background{
+	background: rgba(211, 211, 211, 0.5);
+	padding:50px;
+	
+	
+}
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  margin:30px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+</style>
+<div class="header">
+ <h1 >Forward and Inverse Kinematics of 2 dof</h1>
+</div>
+</head>
+<body >
+<div class="row">
+<div class="box_background column">
+<!-- Here input length one, Length two, Theta one and Theta Two -->
+<p class="w3-container w3-purple " ><strong  >Forward kinematics:</strong> </p>
+<label for="l1" class="w3-text-purple">First Length</label><br>
+<input type="number" id="l1" class="w3-input w3-border"><br>
+<label for="l2" class="w3-text-purple">Second Length</label><br>
+<input type="number" id="l2" class="w3-input w3-border"><br>
+<label for="q1" class="w3-text-purple">First Theta</label><br>
+<input type="number" id="q1" class="w3-input w3-border"><br>
+<label for="q2" class="w3-text-purple">Second Theta</label><br>
+<input type="number" id="q2" class="w3-input w3-border"><br><br>
+
+<button onclick="fkFunction()" class="w3-btn w3-purple">Result</button><br>
+<!-- Here output of result (x,y) and Theta -->
+<p id="resultxy"></p>
+<p id="resultq"></p>
+</div>
+<!-- Function of Forward Kinematics -->
+<script>
+function fkFunction() {
+  var l1 = document.getElementById("l1").value;
+  var l2 = document.getElementById("l2").value;
+  var q1 = document.getElementById("q1").value;
+  var q2 = document.getElementById("q2").value;
+  
+ 
+  
+  var x =(parseInt(l1)* Math.cos(parseInt(q1)) +parseInt(l2)) *  Math.cos(parseInt(q1)+parseInt(q2));
+  var y =(parseInt(l1)* Math.sin(parseInt(q1)) +parseInt(l2) )*  Math.cos(q1+q2);
+  var q = parseInt(q1) + parseInt(q2);
+  
+  document.getElementById("resultxy").innerHTML="(X,y) = ("+x.toFixed(2)+","+y.toFixed(2)+")";
+  document.getElementById("resultq").innerHTML="Theta = "+q;
+}
+</script>
+<div class="box_background column">
+<!-- Here input length one, Length two, Theta and End Effect(x,y) -->
+<p class="w3-container w3-purple " ><strong>Inverse kinematics:</strong> </p>
+<label for="il1" class="w3-text-purple">First Length</label><br>
+<input type="number" id="il1" class="w3-input w3-border"><br>
+<label for="il2" class="w3-text-purple">Second Length</label><br>
+<input type="number" id="il2" class="w3-input w3-border"><br>
+<label for="t" class="w3-text-purple">Theta</label><br>
+<input type="number" id="t"   class="w3-input w3-border"><br>
+<label for="x" class="w3-text-purple">End Effect of X</label><br>
+<input type="number" id="x"   class="w3-input w3-border"><br>
+<label for="y" class="w3-text-purple">End Effect of Y</label><br>
+<input type="number" id="y"   class="w3-input w3-border"><br><br>
+
+<button onclick="ikFunction()" class="w3-btn w3-purple">Result</button><br>
+
+<p id="resultq1"></p>
+<p id="resultq2"></p>
+
+</div>
+<!-- Function of Inverse Kinematics -->
+<script>
+function ikFunction() {
+  var il1 = document.getElementById("il1").value;
+  var il2 = document.getElementById("il2").value;
+  var t = document.getElementById("t").value;
+  var x = document.getElementById("x").value;
+  var y = document.getElementById("y").value;
+  
+  var q2 = ((Math.pow(parseInt(x),2)+ Math.pow(parseInt(y),2))-(Math.pow(parseInt(il1),2)-Math.pow(parseInt(il2),2)))/( 2*parseInt(il1)*parseInt(il2));
+  var q1 = t - q2;
+  document.getElementById("resultq1").innerHTML="θ1 = "+q1.toFixed(2);
+  document.getElementById("resultq2").innerHTML="θ2 = "+q2.toFixed(2);
+}
+</script>
+</div>
+
+</body>
+</html>
